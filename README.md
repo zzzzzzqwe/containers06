@@ -54,6 +54,8 @@ docker network create internal
 
 ![image](screenshots/Screenshot_4.png)
 
+Решил сменить `cmd` на `PowerShell` так как он современнее и более универсален
+
 2. Создаю контейнер `backend` со следующими свойствами:
 
 - на базе образа `php:7.4-fpm`;
@@ -67,10 +69,10 @@ docker run -d --name backend --network internal -v "${PWD}\phplab03:/var/www/htm
 ![image](screenshots/Screenshot_5.png)
 
 - `--name backend` - задаёт имя контейнера backend
-- `--network internal` - Подключает контейнер к Docker-сети с именем `internal`. Позволяет контейнерам взаимодействовать между собой по имени.
-- `-v "${PWD}\phplab03:/var/www/html"` - Создаёт volume-монтирование, связывает локальную папку `phplab03` с папкой внутри контейнера `/var/www/html`. Это позволяет `PHP-контейнеру` видеть и исполнять `.php-файлы`.
-`${PWD}` — текущая директория в PowerShell.
-- `php:7.4-fpm` - Образ, на основе которого запускается контейнер.
+- `--network internal` - подключает контейнер к Docker-сети с именем `internal`. Позволяет контейнерам взаимодействовать между собой по имени.
+- `-v "${PWD}\phplab03:/var/www/html"` - создаёт volume-монтирование, связывает локальную папку `phplab03` с папкой внутри контейнера `/var/www/html`. Это позволяет `PHP-контейнеру` видеть и исполнять `.php-файлы`.
+`${PWD}` — текущая директория в `PowerShell`.
+- `php:7.4-fpm` - образ, на основе которого запускается контейнер.
 
 3. Создаю контейнер `frontend` со следующими свойствами:
 
@@ -90,3 +92,9 @@ docker run -d --name frontend `
 ```
 
 ![image](screenshots/Screenshot_7.png)
+
+- `--network internal` - подключает контейнер к созданной ранее сети с именем `internal`. Это позволяет frontend-контейнеру общаться с backend-контейнером
+- `-v "${PWD}\phplab03:/var/www/html"` - монтирует локальную папку `phplab03` в папку `/var/www/html` внутри контейнера
+- `-v "${PWD}\nginx\default.conf:/etc/nginx/conf.d/default.conf"` - монтирует файл конфигурации nginx (мой default.conf) в нужную директорию внутри контейнера.
+- `-p 80:80` - пробрасывает порт - внешний порт 80 на хосте - внутренний порт 80 в контейнере.
+- `nginx:1.23-alpine` - указывает, на каком образе будет запущен контейнер
