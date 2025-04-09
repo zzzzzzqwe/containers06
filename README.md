@@ -13,4 +13,11 @@
 
 ![image](screenshots/Screenshot_1.png)
 
-2. Создаю 
+2. Создаю `.gitignore` и вношу туда 
+
+```bash
+# Ignore files and directories
+mounts/site/*
+```
+
+![image](screenshots/Screenshot_2.png)
