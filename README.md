@@ -72,4 +72,21 @@ docker run -d --name backend --network internal -v "${PWD}\phplab03:/var/www/htm
 `${PWD}` — текущая директория в PowerShell.
 - `php:7.4-fpm` - Образ, на основе которого запускается контейнер.
 
+3. Создаю контейнер `frontend` со следующими свойствами:
 
+- на базе образа `nginx:1.23-alpine`;
+- с примонтированной директорией `mounts/site` в `/var/www/html`;
+- с примонтированным файлом `nginx/default.conf` в `/etc/nginx/conf.d/default.conf`;
+- порт 80 контейнера проброшен на порт `80` хоста;
+- работает в сети `internal`.
+
+```bash
+docker run -d --name frontend `
+  --network internal `
+  -v "${PWD}\phplab03:/var/www/html" `
+  -v "${PWD}\nginx\default.conf:/etc/nginx/conf.d/default.conf" `
+  -p 80:80 `
+  nginx:1.23-alpine
+```
+
+![image](screenshots/Screenshot_7.png)
